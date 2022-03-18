@@ -1,6 +1,9 @@
 package com.thiagodev.springprojectbasic.Models;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,19 +13,20 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Categoria {
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    private Double preco;
 
-    @ManyToMany
-    @JoinTable(joinColumns = @JoinColumn(name = "categoria_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
-    private List<Produto> produtoList;
+    @ManyToMany(mappedBy = "produtoList")
+    private List<Categoria> categoriaList;
 
-    public Categoria(Long id, String nome) {
+    public Produto(Long id, String nome, Double preco) {
         this.id = id;
         this.nome = nome;
+        this.preco = preco;
     }
 }

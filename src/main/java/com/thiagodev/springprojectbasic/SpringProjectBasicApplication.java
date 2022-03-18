@@ -12,8 +12,12 @@ import java.util.Arrays;
 @SpringBootApplication
 public class SpringProjectBasicApplication implements CommandLineRunner {
 
-    @Autowired
+    final
     CategoriaRepository categoriaRepository;
+
+    public SpringProjectBasicApplication(CategoriaRepository categoriaRepository) {
+        this.categoriaRepository = categoriaRepository;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(SpringProjectBasicApplication.class, args);
