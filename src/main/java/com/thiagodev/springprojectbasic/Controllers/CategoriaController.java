@@ -20,7 +20,6 @@ public class CategoriaController {
     @GetMapping(value = {"{id}"})
     public ResponseEntity<?> find(@PathVariable Long id) {
         Categoria obj = categoriaService.findByid(id);
-
         return ResponseEntity.ok(obj);
 
     }

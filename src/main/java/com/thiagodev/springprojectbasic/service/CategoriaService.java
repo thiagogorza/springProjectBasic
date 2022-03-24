@@ -2,9 +2,9 @@ package com.thiagodev.springprojectbasic.service;
 
 import com.thiagodev.springprojectbasic.Models.Categoria;
 import com.thiagodev.springprojectbasic.repository.CategoriaRepository;
+import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Optional;
 
@@ -20,7 +20,8 @@ public class CategoriaService {
 
         Optional<Categoria> obj = categoriaRepository.findById(id);
 
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id " +
+                id + ",tipo:"  + Categoria.class.getName() ));
 
     }
 
