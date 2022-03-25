@@ -1,13 +1,8 @@
 package com.thiagodev.springprojectbasic;
 
-import com.thiagodev.springprojectbasic.Models.Categoria;
-import com.thiagodev.springprojectbasic.Models.Cidade;
-import com.thiagodev.springprojectbasic.Models.Estado;
-import com.thiagodev.springprojectbasic.Models.Produto;
-import com.thiagodev.springprojectbasic.repository.CategoriaRepository;
-import com.thiagodev.springprojectbasic.repository.CidadeRepository;
-import com.thiagodev.springprojectbasic.repository.EstadoRepository;
-import com.thiagodev.springprojectbasic.repository.ProdutoRepository;
+import com.thiagodev.springprojectbasic.Models.*;
+import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
+import com.thiagodev.springprojectbasic.repository.*;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,14 +25,18 @@ public class SpringProjectBasicApplication implements ApplicationRunner {
     final
     private EstadoRepository estadoRepository;
 
+    final
+    private ClienteRepository clienteRepository;
 
 
 
-    public SpringProjectBasicApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, CidadeRepository cidadeRepository, EstadoRepository estadoRepository) {
+
+    public SpringProjectBasicApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, CidadeRepository cidadeRepository, EstadoRepository estadoRepository, ClienteRepository clienteRepository) {
         this.categoriaRepository = categoriaRepository;
         this.produtoRepository = produtoRepository;
         this.cidadeRepository = cidadeRepository;
         this.estadoRepository = estadoRepository;
+        this.clienteRepository = clienteRepository;
     }
 
 
@@ -76,6 +75,7 @@ public class SpringProjectBasicApplication implements ApplicationRunner {
         estadoRepository.saveAll(Arrays.asList(est1,est2));
         cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 
+        Cliente cli1 = new Cliente(null,"Maria Silva","maria@gmail.com","12314726774", TipoCliente.PESSOAFISICA);
 
 
     }
