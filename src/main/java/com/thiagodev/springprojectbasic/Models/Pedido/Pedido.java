@@ -1,21 +1,23 @@
-package com.thiagodev.springprojectbasic.Models;
+package com.thiagodev.springprojectbasic.Models.Pedido;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.thiagodev.springprojectbasic.Models.Cliente;
+import com.thiagodev.springprojectbasic.Models.Endereco;
 import com.thiagodev.springprojectbasic.Models.Pagamento.Pagamento;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-public class Pedido {
-
+public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,6 +34,9 @@ public class Pedido {
 
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "pedido") // necessário para nao dar erro transient
     private Pagamento pagamento;
+
+    @OneToMany(mappedBy = "id.pedido")
+    private Set<ItemPedido> itens = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

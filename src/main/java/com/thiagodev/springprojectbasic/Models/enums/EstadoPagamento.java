@@ -2,6 +2,8 @@ package com.thiagodev.springprojectbasic.Models.enums;
 
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
 public enum EstadoPagamento {
 

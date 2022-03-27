@@ -4,6 +4,8 @@ import com.thiagodev.springprojectbasic.Models.*;
 import com.thiagodev.springprojectbasic.Models.Pagamento.Pagamento;
 import com.thiagodev.springprojectbasic.Models.Pagamento.PagamentoComBoleto;
 import com.thiagodev.springprojectbasic.Models.Pagamento.PagamentoComCartao;
+import com.thiagodev.springprojectbasic.Models.Pedido.ItemPedido;
+import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
 import com.thiagodev.springprojectbasic.repository.*;
@@ -42,10 +44,13 @@ public class SpringProjectBasicApplication implements ApplicationRunner {
     final
     private PedidoRepository pedidoRepository;
 
+    final
+    private ItemPedidoRepository itemPedidoRepository;
 
 
 
-    public SpringProjectBasicApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, CidadeRepository cidadeRepository, EstadoRepository estadoRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, PagamentoRepository pagamentoRepository, PedidoRepository pedidoRepository) {
+
+    public SpringProjectBasicApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, CidadeRepository cidadeRepository, EstadoRepository estadoRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, PagamentoRepository pagamentoRepository, PedidoRepository pedidoRepository, ItemPedidoRepository itemPedidoRepository) {
         this.categoriaRepository = categoriaRepository;
         this.produtoRepository = produtoRepository;
         this.cidadeRepository = cidadeRepository;
@@ -54,6 +59,7 @@ public class SpringProjectBasicApplication implements ApplicationRunner {
         this.enderecoRepository = enderecoRepository;
         this.pagamentoRepository = pagamentoRepository;
         this.pedidoRepository = pedidoRepository;
+        this.itemPedidoRepository = itemPedidoRepository;
     }
 
 
@@ -122,11 +128,19 @@ public class SpringProjectBasicApplication implements ApplicationRunner {
         pagamentoRepository.saveAll((Arrays.asList(pagto1,pagto2)));
 
 
+        ItemPedido ip1 = new ItemPedido(ped1,p1,0.00,1,2000.00);
+        ItemPedido ip2 = new ItemPedido(ped1,p3,0.00,2,80.00);
+        ItemPedido ip3 = new ItemPedido(ped2,p2,100.00,1,800.00);
+
+        ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+        ped2.getItens().addAll(Arrays.asList(ip3));
+
+        p1.getItens().addAll(Arrays.asList(ip1));
+        p2.getItens().addAll(Arrays.asList(ip3));
+        p3.getItens().addAll(Arrays.asList(ip2));
 
 
-
-
-
+        itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
 
 
 

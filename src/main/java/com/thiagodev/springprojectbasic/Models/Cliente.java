@@ -2,12 +2,14 @@ package com.thiagodev.springprojectbasic.Models;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-public class Cliente {
+public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

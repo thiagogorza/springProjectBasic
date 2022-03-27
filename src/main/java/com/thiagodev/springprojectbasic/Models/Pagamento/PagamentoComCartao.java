@@ -1,10 +1,8 @@
 package com.thiagodev.springprojectbasic.Models.Pagamento;
 
-import com.thiagodev.springprojectbasic.Models.Pedido;
+import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;

@@ -1,21 +1,20 @@
 package com.thiagodev.springprojectbasic.Models.Pagamento;
 
-import com.thiagodev.springprojectbasic.Models.Pedido;
+import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) // necessário para mapear as heranças (pagamentoComboleto e pagamentoComCartao)
 @Getter                                         // e criar uma só tabela para os 2
 @Setter
-public abstract class Pagamento{ // abstract para garantir que não haverá instanciamento da classe (tem que ser boleto ou cartao)
+public abstract class Pagamento implements Serializable { // abstract para garantir que não haverá instanciamento da classe (tem que ser boleto ou cartao)
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
