@@ -3,27 +3,32 @@ package com.thiagodev.springprojectbasic.Models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @Entity
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
     private String cpfOuCnpj;
     private Integer tipoCliente; // colocou tipo cliente como intenger dentro da classe,para que apenas o cod da classe TipoCliente
-                                    // seja armazenado
+
+    @JsonManagedReference
+    @OneToMany(mappedBy="cliente")
+    private List<Pedido> pedidos;                                // seja armazenado
 
     @ElementCollection // cria uma tabela nova "telefone" tendo como chave primaria o id do cliente
     @CollectionTable(name="telefone")
@@ -50,5 +55,18 @@ public class Cliente {
 
     public void setTipoCliente(TipoCliente tipoCliente) {
         this.tipoCliente = tipoCliente.getCod();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Cliente cliente = (Cliente) o;
+        return id != null && Objects.equals(id, cliente.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

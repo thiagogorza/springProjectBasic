@@ -1,0 +1,60 @@
+package com.thiagodev.springprojectbasic.Models.Pagamento;
+
+import com.thiagodev.springprojectbasic.Models.Pedido;
+import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.Hibernate;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED) // necessário para mapear as heranças (pagamentoComboleto e pagamentoComCartao)
+@Getter                                         // e criar uma só tabela para os 2
+@Setter
+public abstract class Pagamento{ // abstract para garantir que não haverá instanciamento da classe (tem que ser boleto ou cartao)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Integer estado;
+
+    @OneToOne
+    @JoinColumn(name="pedido_id")
+    @MapsId // garante que o id do pagamento vai ser o mesmo id do pedido
+    private Pedido pedido;
+
+    public Pagamento(Long id, EstadoPagamento estado, Pedido pedido) {
+        this.id = id;
+        this.estado = estado.getCod();
+        this.pedido = pedido;
+    }
+
+    public Pagamento() {
+
+    }
+
+    public EstadoPagamento getEstado() {
+        return EstadoPagamento.toEnum(estado);
+    }
+
+    public void setEstado(EstadoPagamento estado) {
+        this.estado = estado.getCod();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Pagamento pagamento = (Pagamento) o;
+        return id != null && Objects.equals(id, pagamento.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+}

@@ -1,6 +1,10 @@
 package com.thiagodev.springprojectbasic;
 
 import com.thiagodev.springprojectbasic.Models.*;
+import com.thiagodev.springprojectbasic.Models.Pagamento.Pagamento;
+import com.thiagodev.springprojectbasic.Models.Pagamento.PagamentoComBoleto;
+import com.thiagodev.springprojectbasic.Models.Pagamento.PagamentoComCartao;
+import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
 import com.thiagodev.springprojectbasic.repository.*;
 import org.springframework.boot.ApplicationArguments;
@@ -8,6 +12,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -31,16 +36,24 @@ public class SpringProjectBasicApplication implements ApplicationRunner {
     final
     private EnderecoRepository enderecoRepository;
 
+    final
+    private PagamentoRepository pagamentoRepository;
+
+    final
+    private PedidoRepository pedidoRepository;
 
 
 
-    public SpringProjectBasicApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, CidadeRepository cidadeRepository, EstadoRepository estadoRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository) {
+
+    public SpringProjectBasicApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, CidadeRepository cidadeRepository, EstadoRepository estadoRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, PagamentoRepository pagamentoRepository, PedidoRepository pedidoRepository) {
         this.categoriaRepository = categoriaRepository;
         this.produtoRepository = produtoRepository;
         this.cidadeRepository = cidadeRepository;
         this.estadoRepository = estadoRepository;
         this.clienteRepository = clienteRepository;
         this.enderecoRepository = enderecoRepository;
+        this.pagamentoRepository = pagamentoRepository;
+        this.pedidoRepository = pedidoRepository;
     }
 
 
@@ -88,13 +101,27 @@ public class SpringProjectBasicApplication implements ApplicationRunner {
         Endereco e2 = new Endereco(null,"Rua Jacupuru","5","loja",
                 "Lambari","25534-333", cli1,c2);
 
-//        cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
-
-
 
         clienteRepository.saveAll(Arrays.asList(cli1));
 
         enderecoRepository.saveAll(Arrays.asList(e1,e2));
+
+//        cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm"); // classe auxiliar para gerar uma data formatada
+
+        Pedido ped1 = new Pedido(null,sdf.parse("30/09/2017 10:32"),cli1,e1);
+        Pedido ped2 = new Pedido(null,sdf.parse("10/10/2017 19:35"),cli1,e2);
+
+        Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO,ped1,6);
+        ped1.setPagamento(pagto1);
+        Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE,ped2,sdf.parse("20/10/2017 00:00"),null);
+        ped2.setPagamento(pagto2);
+
+        pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
+        pagamentoRepository.saveAll((Arrays.asList(pagto1,pagto2)));
+
+
 
 
 
