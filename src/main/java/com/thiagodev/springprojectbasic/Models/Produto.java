@@ -18,7 +18,7 @@ import java.util.List;
 public class Produto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String nome;
     private Double preco;

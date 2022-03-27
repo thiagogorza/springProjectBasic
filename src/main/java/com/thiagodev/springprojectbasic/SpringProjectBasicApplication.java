@@ -28,15 +28,19 @@ public class SpringProjectBasicApplication implements ApplicationRunner {
     final
     private ClienteRepository clienteRepository;
 
+    final
+    private EnderecoRepository enderecoRepository;
 
 
 
-    public SpringProjectBasicApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, CidadeRepository cidadeRepository, EstadoRepository estadoRepository, ClienteRepository clienteRepository) {
+
+    public SpringProjectBasicApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, CidadeRepository cidadeRepository, EstadoRepository estadoRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository) {
         this.categoriaRepository = categoriaRepository;
         this.produtoRepository = produtoRepository;
         this.cidadeRepository = cidadeRepository;
         this.estadoRepository = estadoRepository;
         this.clienteRepository = clienteRepository;
+        this.enderecoRepository = enderecoRepository;
     }
 
 
@@ -75,7 +79,29 @@ public class SpringProjectBasicApplication implements ApplicationRunner {
         estadoRepository.saveAll(Arrays.asList(est1,est2));
         cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 
-        Cliente cli1 = new Cliente(null,"Maria Silva","maria@gmail.com","12314726774", TipoCliente.PESSOAFISICA);
+        Cliente cli1 = new Cliente(null,"Maria Silva","maria@gmail.com","12214316557",
+                TipoCliente.PESSOAFISICA);
+        cli1.getTelefones().addAll(Arrays.asList("2733225049","2733244504"));
+
+        Endereco e1 = new Endereco(null,"Rua Tapajós","3","casa",
+                "vila belmiro","22334-120", cli1,c1);
+        Endereco e2 = new Endereco(null,"Rua Jacupuru","5","loja",
+                "Lambari","25534-333", cli1,c2);
+
+//        cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+
+
+
+        clienteRepository.saveAll(Arrays.asList(cli1));
+
+        enderecoRepository.saveAll(Arrays.asList(e1,e2));
+
+
+
+
+
+
+
 
 
     }

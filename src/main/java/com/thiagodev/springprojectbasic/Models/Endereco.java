@@ -16,7 +16,7 @@ import java.util.List;
 public class Endereco {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String logradouro;
     private String numero;
@@ -26,7 +26,7 @@ public class Endereco {
 
 
     @ManyToOne
-    @JsonBackReference
+    @JoinColumn(name="cliente_id")
     private Cliente cliente;
 
     @OneToOne

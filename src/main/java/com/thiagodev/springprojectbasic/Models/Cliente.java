@@ -16,7 +16,7 @@ import java.util.Set;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
     private String email;
@@ -24,10 +24,11 @@ public class Cliente {
     private Integer tipoCliente; // colocou tipo cliente como intenger dentro da classe,para que apenas o cod da classe TipoCliente
                                     // seja armazenado
 
-    @ElementCollection
+    @ElementCollection // cria uma tabela nova "telefone" tendo como chave primaria o id do cliente
+    @CollectionTable(name="telefone")
     private Set<String> telefones = new HashSet<>();
 
-    @OneToMany(mappedBy="cliente", orphanRemoval = true)
+    @OneToMany(mappedBy="cliente")
     private List<Endereco> enderecos;
 
     public Cliente(Long id, String name, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
