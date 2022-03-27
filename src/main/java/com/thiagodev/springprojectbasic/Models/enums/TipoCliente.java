@@ -2,6 +2,7 @@ package com.thiagodev.springprojectbasic.Models.enums;
 
 import lombok.Getter;
 
+
 @Getter
 public enum TipoCliente {
 

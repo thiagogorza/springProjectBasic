@@ -1,18 +1,18 @@
 package com.thiagodev.springprojectbasic.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
-@Entity
+
 @Getter
 @Setter
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class Endereco {
 
     @Id
@@ -24,4 +24,11 @@ public class Endereco {
     private String bairro;
     private String cep;
 
+
+    @ManyToOne
+    @JsonBackReference
+    private Cliente cliente;
+
+    @OneToOne
+    private Cidade cidade;
 }
