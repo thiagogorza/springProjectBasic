@@ -1,5 +1,6 @@
 package com.thiagodev.springprojectbasic.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Estado {
     private String nome;
 
     @OneToMany(mappedBy="estado", orphanRemoval = true)
+    @JsonBackReference
     List<Cidade> cidadeList = new ArrayList<>();
 
 

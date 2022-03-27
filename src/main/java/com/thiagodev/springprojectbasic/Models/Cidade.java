@@ -1,6 +1,7 @@
 package com.thiagodev.springprojectbasic.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Cidade {
     private String nome;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     private Estado estado;
 
 

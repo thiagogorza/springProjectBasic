@@ -26,6 +26,7 @@ public class Endereco {
 
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name="cliente_id")
     private Cliente cliente;
 

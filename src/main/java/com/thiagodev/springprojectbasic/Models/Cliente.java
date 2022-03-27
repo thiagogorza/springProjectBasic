@@ -1,6 +1,7 @@
 package com.thiagodev.springprojectbasic.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
 import lombok.*;
 
@@ -28,6 +29,7 @@ public class Cliente {
     @CollectionTable(name="telefone")
     private Set<String> telefones = new HashSet<>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy="cliente")
     private List<Endereco> enderecos;
 
