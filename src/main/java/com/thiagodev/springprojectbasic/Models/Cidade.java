@@ -24,7 +24,7 @@ public class Cidade implements Serializable {
     private String nome;
 
     @ManyToOne
-    @JsonManagedReference
+    
     private Estado estado;
 
     @Override

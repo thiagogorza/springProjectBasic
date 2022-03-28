@@ -1,6 +1,7 @@
 package com.thiagodev.springprojectbasic.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,7 +25,7 @@ public class Estado implements Serializable {
     private String nome;
 
     @OneToMany(mappedBy="estado", orphanRemoval = true)
-    @JsonBackReference
+    @JsonIgnore
     List<Cidade> cidadeList = new ArrayList<>();
 
 

@@ -30,7 +30,7 @@ public class Produto implements Serializable {
     private String nome;
     private Double preco;
 
-    @JsonBackReference // vai omitir a lista de categorias para o produto (pois já foi referenciado na outra classe)
+    @JsonIgnore // vai omitir a lista de categorias para o produto (pois já foi referenciado na outra classe)
     @ManyToMany(mappedBy = "produtoList")
     private List<Categoria> categoriaList = new ArrayList<>();
 

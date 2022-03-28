@@ -1,6 +1,7 @@
 package com.thiagodev.springprojectbasic.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +31,7 @@ public class Endereco implements Serializable {
 
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name="cliente_id")
     private Cliente cliente;
 

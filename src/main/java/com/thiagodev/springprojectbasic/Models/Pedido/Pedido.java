@@ -27,7 +27,7 @@ public class Pedido implements Serializable {
     private Date instante;
 
     @ManyToOne
-    @JsonManagedReference
+    
     @JoinColumn(name="cliente_id")
     private Cliente cliente;
 
@@ -35,7 +35,7 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "endereco_de_entrega_id")
     private Endereco endereco;
 
-    @JsonManagedReference
+    
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "pedido") // necessário para nao dar erro transient
     private Pagamento pagamento;
 
