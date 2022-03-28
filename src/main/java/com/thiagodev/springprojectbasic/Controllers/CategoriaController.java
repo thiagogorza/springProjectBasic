@@ -2,6 +2,7 @@ package com.thiagodev.springprojectbasic.Controllers;
 
 import com.thiagodev.springprojectbasic.Models.Categoria;
 import com.thiagodev.springprojectbasic.service.CategoriaService;
+import com.thiagodev.springprojectbasic.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,12 @@ import java.util.List;
 @RequestMapping(value = "/categorias")
 public class CategoriaController {
 
+    private final CategoriaService categoriaService;
+
     @Autowired
-    CategoriaService categoriaService;
+    public CategoriaController(CategoriaService categoriaService){
+        this.categoriaService = categoriaService;
+    }
 
     @GetMapping(value = {"{id}"})
     public ResponseEntity<?> find(@PathVariable Long id) {

@@ -1,6 +1,7 @@
 package com.thiagodev.springprojectbasic.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
@@ -28,7 +29,7 @@ public class Cliente implements Serializable {
     private String cpfOuCnpj;
     private Integer tipoCliente; // colocou tipo cliente como intenger dentro da classe,para que apenas o cod da classe TipoCliente
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy="cliente")
     private List<Pedido> pedidos;                                // seja armazenado
 

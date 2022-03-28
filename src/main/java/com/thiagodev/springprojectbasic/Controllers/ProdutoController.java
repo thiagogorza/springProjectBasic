@@ -9,16 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/produto")
+@RequestMapping(value = "/produtos")
 public class ProdutoController {
 
+    private final ProdutoService produtoService;
+
     @Autowired
-    ProdutoService produtoService;
+    public ProdutoController(ProdutoService produtoService){
+        this.produtoService = produtoService;
+    }
 
     @GetMapping(value = "{id}")
     public ResponseEntity<?> findById(Long id){
 
-        Produto obj = produtoService.findById(id);
+        Produto obj = produtoService.findByid(id);
 
         return ResponseEntity.ok(obj);
 

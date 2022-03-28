@@ -1,5 +1,6 @@
 package com.thiagodev.springprojectbasic.Models.Pedido;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thiagodev.springprojectbasic.Models.Produto;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 @Entity
 public class ItemPedido implements Serializable {
 
+    @JsonIgnore // não deixar que a referencia ciclica quebre a aplicação
     @EmbeddedId
     private ItemPedidoPk id = new ItemPedidoPk();
 
@@ -35,9 +37,11 @@ public class ItemPedido implements Serializable {
 
     }
 
+    @JsonIgnore // para não serealizar os id de pedido dentro da classe itemPedido
     public Pedido getPedido(){
         return id.getPedido();
     }
+
     public Produto getProduto(){
         return id.getProduto();
     }

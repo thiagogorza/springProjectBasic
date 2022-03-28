@@ -1,5 +1,6 @@
 package com.thiagodev.springprojectbasic.Models.Pagamento;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public abstract class Pagamento implements Serializable { // abstract para garan
     private Integer estado;
 
     @OneToOne
+    @JsonBackReference
     @JoinColumn(name="pedido_id")
     @MapsId // garante que o id do pagamento vai ser o mesmo id do pedido
     private Pedido pedido;

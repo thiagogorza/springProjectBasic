@@ -1,6 +1,7 @@
 package com.thiagodev.springprojectbasic.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thiagodev.springprojectbasic.Models.Pedido.ItemPedido;
 import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import lombok.AllArgsConstructor;
@@ -33,9 +34,11 @@ public class Produto implements Serializable {
     @ManyToMany(mappedBy = "produtoList")
     private List<Categoria> categoriaList = new ArrayList<>();
 
+    @JsonIgnore // para não serealizar os itens de pedido em produtos, apenas em os produtos em itens de pedido
     @OneToMany(mappedBy = "id.produto") // id.produto pois está mapeado dentro de itemPedidoPk, o id está em itemPedido e o produto dentro de ItemPedidoPk
     private Set<ItemPedido> itens = new HashSet<>();
 
+    @JsonIgnore // para não serealizar a lista de pedidos
     public List<Pedido> getPedidos (){
         List<Pedido> lista = new ArrayList<>();
         for (ItemPedido x : itens) {
