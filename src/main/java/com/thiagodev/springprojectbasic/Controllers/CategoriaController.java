@@ -1,7 +1,6 @@
 package com.thiagodev.springprojectbasic.Controllers;
 
 import com.thiagodev.springprojectbasic.Models.Categoria;
-import com.thiagodev.springprojectbasic.repository.CategoriaRepository;
 import com.thiagodev.springprojectbasic.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +26,17 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public @ResponseBody  Categoria insert(Categoria categoria) {
+    public Categoria insert(@RequestBody Categoria categoria) {
        categoriaService.insert(categoria);
         return categoria;
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Long id){
+        categoria.setId(id);
+        categoriaService.update(categoria);
+        return ResponseEntity.noContent().build();
+
+    }
 
 }

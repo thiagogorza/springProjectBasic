@@ -30,4 +30,8 @@ public class CategoriaService {
 
     }
 
+    public Categoria update(Categoria categoria) {
+        findByid(categoria.getId()); // caso a categoria não exista, ele chama esse metódo que lança uma exceção
+        return categoriaRepository.save(categoria);
+    }
 }
