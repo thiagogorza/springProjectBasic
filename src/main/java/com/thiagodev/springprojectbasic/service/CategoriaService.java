@@ -17,11 +17,16 @@ public class CategoriaService {
 
     public Categoria findByid(Long id) {
 
-
         Optional<Categoria> obj = categoriaRepository.findById(id);
 
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id " +
                 id + ",tipo:"  + Categoria.class.getName() ));
+
+    }
+
+    public Categoria insert(Categoria categoria) {
+        categoria.setId(null);
+        return categoriaRepository.save(categoria);
 
     }
 
