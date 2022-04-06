@@ -2,9 +2,12 @@ package com.thiagodev.springprojectbasic.service;
 
 import com.thiagodev.springprojectbasic.Models.Categoria;
 import com.thiagodev.springprojectbasic.repository.CategoriaRepository;
+import com.thiagodev.springprojectbasic.service.exception.DataIntegrityException;
 import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
 
 import java.util.Optional;
 
@@ -20,7 +23,7 @@ public class CategoriaService {
         Optional<Categoria> obj = categoriaRepository.findById(id);
 
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id " +
-                id + ",tipo:"  + Categoria.class.getName() ));
+                id + ",tipo:" + Categoria.class.getName()));
 
     }
 
@@ -33,5 +36,14 @@ public class CategoriaService {
     public Categoria update(Categoria categoria) {
         findByid(categoria.getId()); // caso a categoria não exista, ele chama esse metódo que lança uma exceção
         return categoriaRepository.save(categoria);
+    }
+
+
+    public void delete(Long id) {
+        try {
+            categoriaRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Não é Possivel excluir uma categoria que possui produtos");
+        }
     }
 }

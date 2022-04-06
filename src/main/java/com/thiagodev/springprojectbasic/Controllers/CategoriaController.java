@@ -19,7 +19,7 @@ public class CategoriaController {
     }
 
     @GetMapping(value = {"{id}"})
-    public ResponseEntity<?> find(@PathVariable Long id) {
+    public ResponseEntity<Categoria> find(@PathVariable Long id) {
         Categoria obj = categoriaService.findByid(id);
         return ResponseEntity.ok(obj);
 
@@ -36,6 +36,14 @@ public class CategoriaController {
         categoria.setId(id);
         categoriaService.update(categoria);
         return ResponseEntity.noContent().build();
+
+    }
+
+    @DeleteMapping({"{id}"})
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+      categoriaService.delete(id);
+      return ResponseEntity.noContent().build();
 
     }
 
