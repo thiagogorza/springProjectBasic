@@ -56,10 +56,10 @@ public class CategoriaService {
         }
     }
 
-    public Page<Categoria> findPage(Integer page, Integer linesPerPage, String direction, String ordeBy) {
+    public Page<Categoria> findPage(Pageable pageable) {
+//        Integer page, Integer linesPerPage, String direction, String ordeBy
+//       PageRequest pageRequest =  PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction),ordeBy);
 
-       PageRequest pageRequest =  PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction),ordeBy);
-
-       return categoriaRepository.findAll(pageRequest);
+       return categoriaRepository.findAll(pageable);
     }
 }

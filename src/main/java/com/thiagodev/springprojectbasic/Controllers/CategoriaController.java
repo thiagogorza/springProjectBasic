@@ -6,6 +6,8 @@ import com.thiagodev.springprojectbasic.service.CategoriaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -72,12 +74,12 @@ public class CategoriaController {
     }
 
     @GetMapping(value = "/page")
-    public ResponseEntity<Page<CategoriaDto>> findPage(@RequestParam(value = "page",defaultValue = "0") Integer page,
-                                                       @RequestParam(value = "linesPerPage",defaultValue = "24") Integer linesPerPage, // 24 pois é multiplo de 2,3,4, ficando fácil a divisão na pagina(dependendo do tamanho da tela)
-                                                       @RequestParam(value = "direction",defaultValue = "ASC")String direction, //ascendente ou descendente (DESC)
-                                                       @RequestParam(value = "ordeBy",defaultValue = "nome") String ordeBy) {
-
-        Page<Categoria> categoriaPage = categoriaService.findPage(page, linesPerPage, direction, ordeBy);
+    public ResponseEntity<Page<CategoriaDto>> findPage(@PageableDefault(page =0,size = 24,direction = Sort.Direction.ASC,sort = "nome") Pageable pageable) {
+//        @RequestParam(value = "page",defaultValue = "0") Integer page,
+//        @RequestParam(value = "linesPerPage",defaultValue = "24") Integer linesPerPage, // 24 pois é multiplo de 2,3,4, ficando fácil a divisão na pagina(dependendo do tamanho da tela)
+//        @RequestParam(value = "direction",defaultValue = "ASC")String direction, //ascendente ou descendente (DESC)
+//        @RequestParam(value = "ordeBy",defaultValue = "nome") String ordeBy,
+        Page<Categoria> categoriaPage = categoriaService.findPage(pageable);
         Page<CategoriaDto> categoriaPageDtos = categoriaPage.map(obj -> new CategoriaDto(obj));
 
 
