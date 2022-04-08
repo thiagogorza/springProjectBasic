@@ -6,9 +6,14 @@ import com.thiagodev.springprojectbasic.service.exception.DataIntegrityException
 import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +21,10 @@ public class CategoriaService {
 
     @Autowired
     CategoriaRepository categoriaRepository;
+
+    public List<Categoria> findAll() {
+        return categoriaRepository.findAll();
+    }
 
 
     public Categoria findByid(Long id) {
@@ -45,5 +54,12 @@ public class CategoriaService {
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Não é Possivel excluir uma categoria que possui produtos");
         }
+    }
+
+    public Page<Categoria> findPage(Integer page, Integer linesPerPage, String direction, String ordeBy) {
+
+       PageRequest pageRequest =  PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction),ordeBy);
+
+       return categoriaRepository.findAll(pageRequest);
     }
 }
