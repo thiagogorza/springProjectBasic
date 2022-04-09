@@ -1,9 +1,14 @@
 package com.thiagodev.springprojectbasic.service;
 
+import com.thiagodev.springprojectbasic.Models.Cidade;
 import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.Models.Dto.ClienteDTO;
+import com.thiagodev.springprojectbasic.Models.Dto.ClienteNewDTO;
+import com.thiagodev.springprojectbasic.Models.Endereco;
+import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
 import com.thiagodev.springprojectbasic.repository.ClienteRepository;
+import com.thiagodev.springprojectbasic.repository.EnderecoRepository;
 import com.thiagodev.springprojectbasic.service.exception.DataIntegrityException;
 import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +24,10 @@ import java.util.Optional;
 public class ClienteService {
 
     @Autowired
-    ClienteRepository clienteRepository;
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
 
     public Cliente findByid(Long id) {
@@ -37,7 +45,9 @@ public class ClienteService {
 
     public Cliente insert(Cliente cliente) {
         cliente.setId(null);
-        return clienteRepository.save(cliente);
+        cliente = clienteRepository.save(cliente);
+        enderecoRepository.saveAll(cliente.getEnderecos()); // para salvar o endereço no metodo post
+        return cliente;
 
     }
 
@@ -66,12 +76,28 @@ public class ClienteService {
         return new Cliente (objDto.getId(),objDto.getName(),objDto.getEmail(),null,null);
 
     }
+    public Cliente fromDto(ClienteNewDTO objDto) {
+        Cliente cliente = new Cliente (null,objDto.getName(),objDto.getEmail(),objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipoCliente()));
+        Cidade cidade = new Cidade(objDto.getCidadeId(),null,null);
+        Endereco endereco = new Endereco(null,objDto.getLogradouro(),objDto.getNumero(),objDto.getComplemento(),
+                objDto.getBairro(),objDto.getCep(),cliente,cidade);
+        cliente.getEnderecos().add(endereco); // para o cliente conhecer o endereço.
+        cliente.getTelefones().add(objDto.getTelefone1());
+        if(objDto.getTelefone2() !=null){
+            cliente.getTelefones().add((objDto.getTelefone2()));
+        }
+        if(objDto.getTelefone3() !=null){
+            cliente.getTelefones().add((objDto.getTelefone3()));
+        }
+    return cliente;
 
+    }
     private void updateData(Cliente newCliente, Cliente obj){
 
         newCliente.setName(obj.getName());
         newCliente.setEmail(obj.getEmail());
 
     }
+
 
 }

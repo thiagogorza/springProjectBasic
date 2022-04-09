@@ -3,6 +3,7 @@ package com.thiagodev.springprojectbasic.Controllers;
 import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.Models.Dto.ClienteDTO;
+import com.thiagodev.springprojectbasic.Models.Dto.ClienteNewDTO;
 import com.thiagodev.springprojectbasic.service.ClienteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -57,9 +59,9 @@ public class ClienteController {
         // converte uma lista em outra lista (foi feito no curso dessa forma, porém preferi utilizar o beanUtils(mais legível)
     }
     
-
+    @Transactional // para garantir que irá salvar um cliente e um endereço na mesma transação
     @PostMapping
-    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
         Cliente obj = clienteService.fromDto(objDto);
         obj = clienteService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()

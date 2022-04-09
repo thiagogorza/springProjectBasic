@@ -56,6 +56,9 @@ public class Cliente implements Serializable {
     public Cliente(Long id, String name, String email) {
     }
 
+    public Cliente(Object o, String name, String email, String cpfOuCnpj, Integer tipoCliente, String logradouro, String numero, String complemento, String bairro, String cep, String telefone1, String telefone2, String telefone3, Long cidadeId) {
+    }
+
 
     public TipoCliente getTipoCliente() {
         return TipoCliente.toEnum(tipoCliente);
