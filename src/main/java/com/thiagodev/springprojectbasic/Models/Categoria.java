@@ -16,7 +16,7 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    private String name;
 
      // para vir os objetos associados a categoria
     @ManyToMany
@@ -25,7 +25,7 @@ public class Categoria implements Serializable {
 
     public Categoria(Long id, String nome) {
         this.id = id;
-        this.nome = nome;
+        this.name = nome;
     }
 
     public Categoria(){}

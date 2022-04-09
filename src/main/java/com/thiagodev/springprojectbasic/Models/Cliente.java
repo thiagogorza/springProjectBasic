@@ -47,11 +47,15 @@ public class Cliente implements Serializable {
         this.name = name;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
-        this.tipoCliente = tipoCliente.getCod();
+        this.tipoCliente = (tipoCliente==null) ? null : tipoCliente.getCod();
     }
 
     public Cliente() {
     }
+
+    public Cliente(Long id, String name, String email) {
+    }
+
 
     public TipoCliente getTipoCliente() {
         return TipoCliente.toEnum(tipoCliente);

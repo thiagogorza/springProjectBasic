@@ -1,7 +1,7 @@
 package com.thiagodev.springprojectbasic.Controllers;
 
 import com.thiagodev.springprojectbasic.Models.Categoria;
-import com.thiagodev.springprojectbasic.Models.Dto.CategoriaDto;
+import com.thiagodev.springprojectbasic.Models.Dto.CategoriaDTO;
 import com.thiagodev.springprojectbasic.service.CategoriaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,20 +31,20 @@ public class CategoriaController {
     @GetMapping
     public ResponseEntity<?> findAll() { // findall apenas do DTO que está sem a lista de produtos,apenas id e nome da categoria.
 
-        List<CategoriaDto> categoriaDtos = new ArrayList<>();
+        List<CategoriaDTO> categoriaDTOS = new ArrayList<>();
         List<Categoria> categoriaList = categoriaService.findAll();
 
 
         for (Categoria categoria : categoriaList){
 
-            CategoriaDto categoriaDto = new CategoriaDto();
+            CategoriaDTO categoriaDto = new CategoriaDTO();
 
             BeanUtils.copyProperties(categoria,categoriaDto);
 
-            categoriaDtos.add(categoriaDto);
+            categoriaDTOS.add(categoriaDto);
         }
 
-        return ResponseEntity.ok(categoriaDtos);
+        return ResponseEntity.ok(categoriaDTOS);
         //        List<CategoriaDto> categoriaDtos = categoriaList.stream().map(obj -> new CategoriaDto(obj)).collect(Collectors.toList());
         // converte uma lista em outra lista (foi feito no curso dessa forma, porém preferi utilizar o beanUtils(mais legível)
     }
@@ -56,7 +56,7 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDto objDto) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
         Categoria obj = categoriaService.fromDto(objDto);
         obj = categoriaService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -81,13 +81,13 @@ public class CategoriaController {
     }
 
     @GetMapping(value = "/page")
-    public ResponseEntity<Page<CategoriaDto>> findPage(@PageableDefault(page =0,size = 24,direction = Sort.Direction.ASC,sort = "nome") Pageable pageable) {
+    public ResponseEntity<Page<CategoriaDTO>> findPage(@PageableDefault(page =0,size = 24,direction = Sort.Direction.ASC,sort = "nome") Pageable pageable) {
 //        @RequestParam(value = "page",defaultValue = "0") Integer page,
 //        @RequestParam(value = "linesPerPage",defaultValue = "24") Integer linesPerPage, // 24 pois é multiplo de 2,3,4, ficando fácil a divisão na pagina(dependendo do tamanho da tela)
 //        @RequestParam(value = "direction",defaultValue = "ASC")String direction, //ascendente ou descendente (DESC)
 //        @RequestParam(value = "ordeBy",defaultValue = "nome") String ordeBy,
         Page<Categoria> categoriaPage = categoriaService.findPage(pageable);
-        Page<CategoriaDto> categoriaPageDtos = categoriaPage.map(obj -> new CategoriaDto(obj));
+        Page<CategoriaDTO> categoriaPageDtos = categoriaPage.map(obj -> new CategoriaDTO(obj));
 
 
 

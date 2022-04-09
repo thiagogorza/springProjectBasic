@@ -7,22 +7,22 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 
-public class CategoriaDto implements Serializable {
+public class CategoriaDTO implements Serializable {
 
     private Long id;
 
     @NotEmpty(message="Preenchimento obrigatório")
     @Length(min=5, max=120, message="O tamanho deve ser entre 5 e 120 caracteres")
-    private String nome;
+    private String name;
 
 
-    public CategoriaDto(Categoria categoria){
+    public CategoriaDTO(Categoria categoria){
         id = categoria.getId();
-        nome = categoria.getNome();
+        name = categoria.getName();
 
     }
 
-    public CategoriaDto(){
+    public CategoriaDTO(){
     }
 
     public Long getId() {
@@ -33,11 +33,11 @@ public class CategoriaDto implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String nome) {
+        this.name = nome;
     }
 }
