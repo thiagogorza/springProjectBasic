@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -48,13 +46,18 @@ public class CategoriaController {
         // converte uma lista em outra lista (foi feito no curso dessa forma, porém preferi utilizar o beanUtils(mais legível)
 
         return ResponseEntity.ok(categoriaDtos);
+    }
 
+    @GetMapping({"{id}"})
+    public ResponseEntity<Categoria> findById(@PathVariable Long id){
+        Categoria categoria = categoriaService.findByid(id);
+        return ResponseEntity.ok().body(categoria);
     }
 
     @PostMapping
-    public Categoria insert(@RequestBody Categoria categoria) {
-       categoriaService.insert(categoria);
-        return categoria;
+    public Categoria insert(@Valid @RequestBody CategoriaDto categoriaDto) {
+       Categoria categoria = categoriaService.fromDto(categoriaDto);
+        return categoriaService.insert(categoria);
     }
 
     @PutMapping("{id}")

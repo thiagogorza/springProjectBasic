@@ -1,6 +1,7 @@
 package com.thiagodev.springprojectbasic.service;
 
 import com.thiagodev.springprojectbasic.Models.Categoria;
+import com.thiagodev.springprojectbasic.Models.Dto.CategoriaDto;
 import com.thiagodev.springprojectbasic.repository.CategoriaRepository;
 import com.thiagodev.springprojectbasic.service.exception.DataIntegrityException;
 import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundException;
@@ -62,4 +63,11 @@ public class CategoriaService {
 
        return categoriaRepository.findAll(pageable);
     }
+
+    public Categoria fromDto(CategoriaDto objDto){
+
+        return new Categoria (objDto.getId(), objDto.getNome());
+
+    }
+
 }
