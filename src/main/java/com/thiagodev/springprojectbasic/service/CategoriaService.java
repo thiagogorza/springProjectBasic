@@ -42,8 +42,15 @@ public class CategoriaService {
     }
 
     public Categoria update(Categoria categoria) {
-        findByid(categoria.getId()); // caso a categoria não exista, ele chama esse metódo que lança uma exceção
-        return categoriaRepository.save(categoria);
+        Categoria newCategoria = findByid(categoria.getId()); //feito para atualizar apenas os argumentos enviados (exemplo: atulizar só nome e email)
+        updateData(newCategoria,categoria);
+        return categoriaRepository.save(newCategoria);
+    }
+
+    private void updateData(Categoria newCategoria, Categoria categoria) {
+
+        newCategoria.setName(categoria.getName());
+
     }
 
 

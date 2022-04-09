@@ -57,8 +57,6 @@ public class ClienteService {
     }
 
     public Page<Cliente> findPage(Pageable pageable) {
-//        Integer page, Integer linesPerPage, String direction, String ordeBy
-//       PageRequest pageRequest =  PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction),ordeBy);
 
         return clienteRepository.findAll(pageable);
     }
