@@ -11,10 +11,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -42,10 +43,10 @@ public class CategoriaController {
 
             categoriaDtos.add(categoriaDto);
         }
-//        List<CategoriaDto> categoriaDtos = categoriaList.stream().map(obj -> new CategoriaDto(obj)).collect(Collectors.toList());
-        // converte uma lista em outra lista (foi feito no curso dessa forma, porém preferi utilizar o beanUtils(mais legível)
 
         return ResponseEntity.ok(categoriaDtos);
+        //        List<CategoriaDto> categoriaDtos = categoriaList.stream().map(obj -> new CategoriaDto(obj)).collect(Collectors.toList());
+        // converte uma lista em outra lista (foi feito no curso dessa forma, porém preferi utilizar o beanUtils(mais legível)
     }
 
     @GetMapping({"{id}"})
@@ -55,9 +56,12 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public Categoria insert(@Valid @RequestBody CategoriaDto categoriaDto) {
-       Categoria categoria = categoriaService.fromDto(categoriaDto);
-        return categoriaService.insert(categoria);
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDto objDto) {
+        Categoria obj = categoriaService.fromDto(objDto);
+        obj = categoriaService.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("{id}")
