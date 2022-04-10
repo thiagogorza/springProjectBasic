@@ -70,7 +70,8 @@ public class ClienteController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> update(@RequestBody Cliente cliente, @PathVariable Long id){
+    public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable Long id){
+        Cliente cliente = clienteService.fromDto(clienteDTO);
         cliente.setId(id);
         clienteService.update(cliente);
         return ResponseEntity.noContent().build();

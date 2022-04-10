@@ -1,22 +1,14 @@
 package com.thiagodev.springprojectbasic.service.validation;
 
-import org.hibernate.validator.constraints.CompositionType;
-import org.hibernate.validator.constraints.ConstraintComposition;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
-
 
 import java.lang.annotation.*;
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.ReportAsSingleViolation;
 
-@ReportAsSingleViolation
-@ConstraintComposition(CompositionType.OR)
-@Target(value= {ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.TYPE_USE })
+
+@Target({ ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = { ClienteInsertValidator.class})
-@Documented
+@Constraint(validatedBy = {ClienteInsertValidator.class})
 public @interface ClienteInsert {
     String message() default "Passed value is not valid as a CPF or CNPJ";
 

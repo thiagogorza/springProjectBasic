@@ -73,11 +73,11 @@ public class ClienteService {
         return clienteRepository.findAll(pageable);
     }
 
-//    public Cliente fromDto(ClienteDTO objDto){
-//
-//        return new Cliente (objDto.getId(),objDto.getName(),objDto.getEmail(),null,null);
-//
-//    }
+    public Cliente fromDto(ClienteDTO objDto){
+
+        return new Cliente (objDto.getId(),objDto.getName(),objDto.getEmail(),null,null);
+
+    }
     public Cliente fromDto(ClienteNewDTO objDto) {
         Cliente cliente = new Cliente (null,objDto.getName(),objDto.getEmail(),objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipoCliente()));
         Cidade cidade = new Cidade(objDto.getCidadeId(),null,null);

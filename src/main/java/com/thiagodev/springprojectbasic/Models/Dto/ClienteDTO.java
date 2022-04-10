@@ -1,6 +1,7 @@
 package com.thiagodev.springprojectbasic.Models.Dto;
 
 import com.thiagodev.springprojectbasic.Models.Cliente;
+import com.thiagodev.springprojectbasic.service.validation.ClienteUpdate;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -8,8 +9,10 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+
 @Getter
 @Setter
+@ClienteUpdate
 public class ClienteDTO {
 
     private Long id;
