@@ -51,7 +51,7 @@ public class CategoriaController {
         // converte uma lista em outra lista (foi feito no curso dessa forma, porém preferi utilizar o beanUtils(mais legível)
     }
 
-    @GetMapping({"{id}"})
+    @GetMapping({"id"})
     public ResponseEntity<Categoria> findById(@PathVariable Long id){
         Categoria categoria = categoriaService.findByid(id);
         return ResponseEntity.ok().body(categoria);

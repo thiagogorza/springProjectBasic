@@ -39,7 +39,7 @@ public class Cliente implements Serializable {
     private Set<String> telefones = new HashSet<>();
 
     
-    @OneToMany(mappedBy="cliente")
+    @OneToMany(mappedBy="cliente",cascade = CascadeType.ALL)
     private List<Endereco> enderecos;
 
     public Cliente(Long id, String name, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
