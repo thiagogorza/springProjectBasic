@@ -12,10 +12,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -32,7 +29,7 @@ public class Cliente implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy="cliente")
-    private List<Pedido> pedidos;                                // seja armazenado
+    private List<Pedido> pedidos = new ArrayList<>();                              // seja armazenado
 
     @ElementCollection // cria uma tabela nova "telefone" tendo como chave primaria o id do cliente
     @CollectionTable(name="telefone")
@@ -40,7 +37,7 @@ public class Cliente implements Serializable {
 
     
     @OneToMany(mappedBy="cliente",cascade = CascadeType.ALL)
-    private List<Endereco> enderecos;
+    private List<Endereco> enderecos = new ArrayList<>();
 
     public Cliente(Long id, String name, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
         this.id = id;
