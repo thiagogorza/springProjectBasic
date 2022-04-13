@@ -15,7 +15,7 @@ import javax.validation.constraints.NotEmpty;
 @ClienteUpdate
 public class ClienteDTO {
 
-    private Long id;
+    private Integer id;
     @NotEmpty(message = "Preenchimento obrigatório")
     @Length(min=5,max = 120,message = "Tamanho deve ser entre 5 e 120 carateres")
     private String name;

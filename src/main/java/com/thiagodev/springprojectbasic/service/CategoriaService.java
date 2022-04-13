@@ -8,7 +8,9 @@ import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundExceptio
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -26,7 +28,7 @@ public class CategoriaService {
     }
 
 
-    public Categoria findByid(Long id) {
+    public Categoria findByid(Integer id) {
 
         Optional<Categoria> obj = categoriaRepository.findById(id);
 
@@ -49,12 +51,12 @@ public class CategoriaService {
 
     private void updateData(Categoria newCategoria, Categoria categoria) {
 
-        newCategoria.setName(categoria.getName());
+        newCategoria.setNome(categoria.getNome());
 
     }
 
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         try {
             categoriaRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
@@ -62,16 +64,14 @@ public class CategoriaService {
         }
     }
 
-    public Page<Categoria> findPage(Pageable pageable) {
-//        Integer page, Integer linesPerPage, String direction, String ordeBy
-//       PageRequest pageRequest =  PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction),ordeBy);
-
-       return categoriaRepository.findAll(pageable);
+    public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        return categoriaRepository.findAll(pageRequest);
     }
 
     public Categoria fromDto(CategoriaDTO objDto){
 
-        return new Categoria (objDto.getId(), objDto.getName());
+        return new Categoria (objDto.getId(), objDto.getNome());
 
     }
 

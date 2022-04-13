@@ -22,7 +22,7 @@ import java.util.Set;
 public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date instante;
 
@@ -55,7 +55,7 @@ public class Pedido implements Serializable {
         return Objects.hash(id, instante, cliente, endereco, pagamento);
     }
 
-    public Pedido(Long id, Date instante, Cliente cliente, Endereco endereco) {
+    public Pedido(Integer id, Date instante, Cliente cliente, Endereco endereco) {
         this.id = id;
         this.instante = instante;
         this.cliente = cliente;

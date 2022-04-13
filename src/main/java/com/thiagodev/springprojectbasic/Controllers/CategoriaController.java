@@ -52,7 +52,7 @@ public class CategoriaController {
     }
 
     @GetMapping({"id"})
-    public ResponseEntity<Categoria> findById(@PathVariable Long id){
+    public ResponseEntity<Categoria> findById(@PathVariable Integer id){
         Categoria categoria = categoriaService.findByid(id);
         return ResponseEntity.ok().body(categoria);
     }
@@ -67,7 +67,7 @@ public class CategoriaController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Long id){
+    public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id){
         categoria.setId(id);
         categoriaService.update(categoria);
         return ResponseEntity.noContent().build();
@@ -75,25 +75,23 @@ public class CategoriaController {
     }
 
     @DeleteMapping({"{id}"})
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
 
       categoriaService.delete(id);
       return ResponseEntity.noContent().build();
 
     }
 
-    @GetMapping(value = "/page")
-    public ResponseEntity<Page<CategoriaDTO>> findPage(@PageableDefault(page =0,size = 24,direction = Sort.Direction.ASC,sort = "nome") Pageable pageable) {
-//        @RequestParam(value = "page",defaultValue = "0") Integer page,
-//        @RequestParam(value = "linesPerPage",defaultValue = "24") Integer linesPerPage, // 24 pois é multiplo de 2,3,4, ficando fácil a divisão na pagina(dependendo do tamanho da tela)
-//        @RequestParam(value = "direction",defaultValue = "ASC")String direction, //ascendente ou descendente (DESC)
-//        @RequestParam(value = "ordeBy",defaultValue = "nome") String ordeBy,
-        Page<Categoria> categoriaPage = categoriaService.findPage(pageable);
-        Page<CategoriaDTO> categoriaPageDtos = categoriaPage.map(obj -> new CategoriaDTO(obj));
-
-
-
-        return ResponseEntity.ok().body(categoriaPageDtos);
+    @GetMapping(value="/page")
+    public ResponseEntity<Page<CategoriaDTO>> findPage(
+            @RequestParam(value="page", defaultValue="0") Integer page,
+            @RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
+            @RequestParam(value="orderBy", defaultValue="nome") String orderBy,
+            @RequestParam(value="direction", defaultValue="ASC") String direction)
+    {
+        Page<Categoria> list = categoriaService.findPage(page, linesPerPage, orderBy, direction);
+        Page<CategoriaDTO> listDto = list.map(obj -> new CategoriaDTO(obj));
+        return ResponseEntity.ok().body(listDto);
     }
 
 }

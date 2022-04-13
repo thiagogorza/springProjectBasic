@@ -14,7 +14,7 @@ public class PedidoService {
     PedidoRepository pedidoRepository;
 
 
-    public Pedido findByid(Long id) {
+    public Pedido findByid(Integer id) {
 
 
         Optional<Pedido> obj = pedidoRepository.findById(id);

@@ -31,7 +31,7 @@ public class ClienteService {
     private EnderecoRepository enderecoRepository;
 
 
-    public Cliente findByid(Long id) {
+    public Cliente findByid(Integer id) {
 
 
         Optional<Cliente> obj = clienteRepository.findById(id);
@@ -60,7 +60,7 @@ public class ClienteService {
     }
 
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         try {
             clienteRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {

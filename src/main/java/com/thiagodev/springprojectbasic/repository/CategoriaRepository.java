@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.awt.print.Pageable;
 
 
-public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
+public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
 }

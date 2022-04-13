@@ -1,11 +1,9 @@
 package com.thiagodev.springprojectbasic.Controllers;
 
 import com.thiagodev.springprojectbasic.Models.Cliente;
-import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.Models.Dto.ClienteDTO;
 import com.thiagodev.springprojectbasic.Models.Dto.ClienteNewDTO;
 import com.thiagodev.springprojectbasic.service.ClienteService;
-import com.thiagodev.springprojectbasic.service.validation.ClienteInsert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,6 +18,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/clientes")
@@ -34,7 +32,7 @@ public class ClienteController {
     }
 
     @GetMapping(value = {"{id}"})
-    public ResponseEntity<?> findbyId(@PathVariable Long id) {
+    public ResponseEntity<?> findbyId(@PathVariable Integer id) {
         Cliente obj = clienteService.findByid(id);
         return ResponseEntity.ok(obj);
 
@@ -46,18 +44,19 @@ public class ClienteController {
         List<Cliente> clienteList = clienteService.findAll();
 
 
-        for (Cliente cliente : clienteList){
-
-            ClienteDTO clienteDto = new ClienteDTO();
-
-            BeanUtils.copyProperties(cliente,clienteDto);
-
-            clienteDTOS.add(clienteDto);
-        }
-
-        return ResponseEntity.ok(clienteDTOS);
-        //        List<ClienteDto> clienteDtos = clienteList.stream().map(obj -> new ClienteDto(obj)).collect(Collectors.toList());
+//        for (Cliente cliente : clienteList){
+//
+//            ClienteDTO clienteDto = new ClienteDTO();
+//
+//            BeanUtils.copyProperties(cliente,clienteDto);
+//
+//            clienteDTOS.add(clienteDto);
+//        }
+//
+//        return ResponseEntity.ok(clienteDTOS);
+                List<ClienteDTO> clienteDtos = clienteList.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
         // converte uma lista em outra lista (foi feito no curso dessa forma, porém preferi utilizar o beanUtils(mais legível)
+        return ResponseEntity.ok(clienteDTOS);
     }
     
     @PostMapping
@@ -70,7 +69,7 @@ public class ClienteController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable Long id){
+    public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO clienteDTO, @PathVariable Integer id){
         Cliente cliente = clienteService.fromDto(clienteDTO);
         cliente.setId(id);
         clienteService.update(cliente);
@@ -79,7 +78,7 @@ public class ClienteController {
     }
 
     @DeleteMapping({"{id}"})
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
 
         clienteService.delete(id);
         return ResponseEntity.noContent().build();

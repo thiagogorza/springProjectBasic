@@ -21,7 +21,7 @@ public class Estado implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String nome;
 
     @OneToMany(mappedBy="estado", orphanRemoval = true)
@@ -29,7 +29,7 @@ public class Estado implements Serializable {
     List<Cidade> cidadeList = new ArrayList<>();
 
 
-    public Estado(Long id, String nome) {
+    public Estado(Integer id, String nome) {
         this.id = id;
         this.nome = nome;
     }

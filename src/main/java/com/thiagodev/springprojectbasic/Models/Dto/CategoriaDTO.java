@@ -12,16 +12,16 @@ import java.io.Serializable;
 @Setter
 public class CategoriaDTO implements Serializable {
 
-    private Long id;
+    private Integer id;
 
     @NotEmpty(message="Preenchimento obrigatório")
     @Length(min=5, max=120, message="O tamanho deve ser entre 5 e 120 caracteres")
-    private String name;
+    private String nome;
 
 
     public CategoriaDTO(Categoria categoria){
         id = categoria.getId();
-        name = categoria.getName();
+        nome = categoria.getNome();
 
     }
 

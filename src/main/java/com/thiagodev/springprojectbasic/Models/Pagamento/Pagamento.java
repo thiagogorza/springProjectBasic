@@ -20,7 +20,7 @@ public abstract class Pagamento implements Serializable { // abstract para garan
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private Integer estado;
 
     @OneToOne
@@ -29,7 +29,7 @@ public abstract class Pagamento implements Serializable { // abstract para garan
     @MapsId // garante que o id do pagamento vai ser o mesmo id do pedido
     private Pedido pedido;
 
-    public Pagamento(Long id, EstadoPagamento estado, Pedido pedido) {
+    public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
         this.id = id;
         this.estado = (estado==null) ? null : estado.getCod();
         this.pedido = pedido;
