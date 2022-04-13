@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/produtos")
 public class ProdutoController {
@@ -26,5 +28,11 @@ public class ProdutoController {
 
         return ResponseEntity.ok(obj);
 
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findAll(){
+        List<Produto> produtoList = produtoService.findAll();
+        return ResponseEntity.ok(produtoList) ;
     }
 }
