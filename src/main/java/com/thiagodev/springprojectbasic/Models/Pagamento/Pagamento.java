@@ -2,6 +2,7 @@ package com.thiagodev.springprojectbasic.Models.Pagamento;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.JOINED) // necessário para mapear as heranças (pagamentoComboleto e pagamentoComCartao)
 @Getter                                         // e criar uma só tabela para os 2
 @Setter
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Pagamento implements Serializable { // abstract para garantir que não haverá instanciamento da classe (tem que ser boleto ou cartao)
 
     @Id
@@ -25,7 +27,7 @@ public abstract class Pagamento implements Serializable { // abstract para garan
 
     @OneToOne
     @JsonIgnore
-        @JoinColumn(name="pedido_id")
+    @JoinColumn(name="pedido_id")
     @MapsId // garante que o id do pagamento vai ser o mesmo id do pedido
     private Pedido pedido;
 

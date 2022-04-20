@@ -11,10 +11,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -62,7 +59,23 @@ public class Pedido implements Serializable {
         this.endereco = endereco;
     }
 
-            public Pedido(){
+    public Pedido() {
 
-            }
+    }
+
+
+    public double getValorTotal(){
+
+        var soma = 0.0;
+
+        for(ItemPedido item : itens){
+
+           soma = soma + item.getSubTotal();
+
+        }
+
+
+        return soma;
+    }
+
 }
