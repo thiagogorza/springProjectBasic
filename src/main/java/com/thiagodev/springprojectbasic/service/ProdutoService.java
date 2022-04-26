@@ -40,7 +40,7 @@ public class ProdutoService {
     public Page<Produto> search(String nome, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         List<Categoria> categorias = categoriaRepository.findAllById(ids);
-        return produtoRepository.findDistinctByNomeContainingIgnoreCaseAndCategoriasIn(nome, categorias, pageRequest);
+        return produtoRepository.findDistinctByNomeContainingIgnoreCaseAndCategoriaListIn(nome, categorias, pageRequest);
     }
 
     public List<Produto> findAll() {
