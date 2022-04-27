@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import java.text.ParseException;
 
 @Configuration
-@Profile("dev")
+@Profile("heroku")
 public class DevConfig {
 
     @Autowired
