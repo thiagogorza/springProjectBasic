@@ -8,6 +8,7 @@ import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
 import com.thiagodev.springprojectbasic.repository.ItemPedidoRepository;
 import com.thiagodev.springprojectbasic.repository.PagamentoRepository;
 import com.thiagodev.springprojectbasic.repository.PedidoRepository;
+import com.thiagodev.springprojectbasic.service.email.EmailService;
 import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,13 @@ public class PedidoService {
     @Autowired
     ProdutoService produtoService;
 
+    @Autowired
+    ClienteService clienteService;
+
+
+    @Autowired
+    EmailService emailService;
+
 
     public Pedido findByid(Integer id) {
 
@@ -50,6 +58,7 @@ public class PedidoService {
     public Pedido insert(Pedido pedido) {
         pedido.setId(null);
         pedido.setInstante(new Date());
+        pedido.setCliente(clienteService.findByid(pedido.getCliente().getId()));
         pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
         pedido.getPagamento().setPedido(pedido);
         if (pedido.getPagamento() instanceof PagamentoComBoleto) { // em uma aplicacao real isso será feito por um webservice
@@ -60,10 +69,12 @@ public class PedidoService {
         pagamentoRepository.save(pedido.getPagamento());
         for (ItemPedido ip : pedido.getItens()) {
             ip.setDesconto(0.0);
-            ip.setPreco(produtoService.findByid(ip.getProduto().getId()).getPreco()); // seta o preço do produto com o mesmo preço que vem do banco de dados através do id.
+            ip.setProduto(produtoService.findByid(ip.getProduto().getId()));
+            ip.setPreco(ip.getProduto().getPreco()); // seta o preço do produto com o mesmo preço que vem do banco de dados através do id.
             ip.setPedido(pedido);
         }
         itemPedidoRepository.saveAll(pedido.getItens());
-        return pedidoRepository.save(pedido);
+        emailService.sendOrderConfirmationEmail(pedido);
+        return pedido;
     }
 }
