@@ -3,6 +3,7 @@ package com.thiagodev.springprojectbasic.config;
 import com.thiagodev.springprojectbasic.service.DBService;
 import com.thiagodev.springprojectbasic.service.email.EmailService;
 import com.thiagodev.springprojectbasic.service.email.MockEmailService;
+import com.thiagodev.springprojectbasic.service.email.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,8 @@ public class TestConfig {
 
     @Bean
     public EmailService emailService(){
-        return new MockEmailService();
+//        return new MockEmailService();
+      return new SmtpEmailService();
     }
 
 }
