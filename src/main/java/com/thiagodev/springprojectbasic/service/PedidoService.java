@@ -74,7 +74,7 @@ public class PedidoService {
             ip.setPedido(pedido);
         }
         itemPedidoRepository.saveAll(pedido.getItens());
-        emailService.sendOrderConfirmationEmail(pedido);
+        emailService.sendOrderConfirmationHtmlEmail(pedido); // envio de email (pode ser por requisicao ou pelo html, os metodos estao criados)
         return pedido;
     }
 }
