@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,11 +34,11 @@ public class ProdutoController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<?> findById(Integer id) {
+    public ResponseEntity<Produto> findById(@PathVariable Integer id) {
 
         Produto obj = produtoService.findByid(id);
 
-        return ResponseEntity.ok(obj);
+        return ResponseEntity.ok().body(obj);
 
     }
 
