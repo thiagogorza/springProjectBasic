@@ -29,6 +29,8 @@ public class Cliente implements Serializable {
     private String cpfOuCnpj;
     private Integer tipoCliente; // colocou tipo cliente como intenger dentro da classe,para que apenas o cod da classe TipoCliente
 
+    @JsonIgnore // nao aparecer nas requisoes get a senha, quando chamar o objeto cliente
+    private String senha;
     @JsonIgnore
     @OneToMany(mappedBy="cliente")
     private List<Pedido> pedidos = new ArrayList<>();                              // seja armazenado
@@ -41,12 +43,13 @@ public class Cliente implements Serializable {
     @OneToMany(mappedBy="cliente",cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
-    public Cliente(Integer id, String name, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
+    public Cliente(Integer id, String name, String email, String cpfOuCnpj, TipoCliente tipoCliente, String senha) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipoCliente = (tipoCliente==null) ? null : tipoCliente.getCod();
+        this.senha= senha;
     }
 
     public Cliente() {

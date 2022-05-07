@@ -41,5 +41,6 @@ public class ClienteNewDTO implements Serializable {
 
     private Integer cidadeId;
 
+    private String senha;
     public ClienteNewDTO(){}
 }

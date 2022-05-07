@@ -9,6 +9,8 @@ import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
 import com.thiagodev.springprojectbasic.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -44,6 +46,9 @@ public class DBService {
 
     final
     private ItemPedidoRepository itemPedidoRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder pe;
 
 
     public DBService(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, CidadeRepository cidadeRepository,
@@ -120,7 +125,7 @@ public class DBService {
         cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 
         Cliente cli1 = new Cliente(null,"Pedro Henrique","pedro@gmail.com","12214316557",
-                TipoCliente.PESSOAFISICA);
+                TipoCliente.PESSOAFISICA,pe.encode("123"));
         cli1.getTelefones().addAll(Arrays.asList("2733225049","2733244504"));
 
         Endereco e1 = new Endereco(null,"Rua Tapajós","3","casa",
