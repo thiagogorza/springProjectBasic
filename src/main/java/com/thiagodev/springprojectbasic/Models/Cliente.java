@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
+import com.thiagodev.springprojectbasic.Models.enums.Perfil;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -36,8 +38,12 @@ public class Cliente implements Serializable {
     private List<Pedido> pedidos = new ArrayList<>();                              // seja armazenado
 
     @ElementCollection // cria uma tabela nova "telefone" tendo como chave primaria o id do cliente
-    @CollectionTable(name="telefone")
+    @CollectionTable(name="TELEFONE")
     private Set<String> telefones = new HashSet<>();
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name="PERFIS")
+    private Set<Integer> perfis = new HashSet<>();
 
     
     @OneToMany(mappedBy="cliente",cascade = CascadeType.ALL)
@@ -50,9 +56,11 @@ public class Cliente implements Serializable {
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipoCliente = (tipoCliente==null) ? null : tipoCliente.getCod();
         this.senha= senha;
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Cliente() {
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Cliente(Long id, String name, String email) {
@@ -68,6 +76,13 @@ public class Cliente implements Serializable {
 
     public void setTipoCliente(TipoCliente tipoCliente) {
         this.tipoCliente = tipoCliente.getCod();
+    }
+
+    public Set<Perfil> getPerfis(){
+        return perfis.stream().map(x-> Perfil.toEnum(x)).collect(Collectors.toSet()); //para cada "perfis" x , adicione um Perfil.toenum (que converte o inteiro recebido em string)
+    }
+    public void addPerfil(Perfil perfil){
+        perfis.add(perfil.getCod());
     }
 
     @Override

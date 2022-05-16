@@ -7,6 +7,7 @@ import com.thiagodev.springprojectbasic.Models.Pagamento.PagamentoComCartao;
 import com.thiagodev.springprojectbasic.Models.Pedido.ItemPedido;
 import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
+import com.thiagodev.springprojectbasic.Models.enums.Perfil;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
 import com.thiagodev.springprojectbasic.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,19 +125,26 @@ public class DBService {
         estadoRepository.saveAll(Arrays.asList(est1,est2));
         cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 
-        Cliente cli1 = new Cliente(null,"Pedro Henrique","pedro@gmail.com","12214316557",
+        Cliente cli1 = new Cliente(null,"Pedro Henrique","pedro@gmail.com","22871049092",
                 TipoCliente.PESSOAFISICA,pe.encode("123"));
         cli1.getTelefones().addAll(Arrays.asList("2733225049","2733244504"));
+
+        Cliente cli2 = new Cliente(null,"Ana costa","thiagomgorza@gmail.com","08421945092",
+                TipoCliente.PESSOAFISICA,pe.encode("1234"));
+        cli2.getTelefones().addAll(Arrays.asList("2733225350","2733244510"));
+        cli2.addPerfil(Perfil.ADMIN);
 
         Endereco e1 = new Endereco(null,"Rua Tapajós","3","casa",
                 "vila belmiro","22334-120", cli1,c1);
         Endereco e2 = new Endereco(null,"Rua Jacupuru","5","loja",
                 "Lambari","25534-333", cli1,c2);
+        Endereco e3 = new Endereco(null,"Rua Cliente 2","10","loja 2",
+                "babu","25104-547", cli2,c2);
 
 
-        clienteRepository.saveAll(Arrays.asList(cli1));
+        clienteRepository.saveAll(Arrays.asList(cli1,cli2));
 
-        enderecoRepository.saveAll(Arrays.asList(e1,e2));
+        enderecoRepository.saveAll(Arrays.asList(e1,e2,e3));
 
 //        cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
 
