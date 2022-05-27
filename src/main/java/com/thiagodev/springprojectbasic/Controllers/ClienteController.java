@@ -43,7 +43,7 @@ public class ClienteController {
         List<ClienteDTO> clienteDTOS = new ArrayList<>();
         List<Cliente> clienteList = clienteService.findAll();
 
-
+// converte uma lista em outra lista (foi feito no curso dessa forma, porém preferi utilizar o beanUtils(mais legível)
 //        for (Cliente cliente : clienteList){
 //
 //            ClienteDTO clienteDto = new ClienteDTO();
@@ -55,7 +55,7 @@ public class ClienteController {
 //
 //        return ResponseEntity.ok(clienteDTOS);
                 List<ClienteDTO> clienteDtos = clienteList.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
-        // converte uma lista em outra lista (foi feito no curso dessa forma, porém preferi utilizar o beanUtils(mais legível)
+
         return ResponseEntity.ok(clienteDTOS);
     }
     
