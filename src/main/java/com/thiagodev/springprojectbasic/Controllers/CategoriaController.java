@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -58,6 +59,7 @@ public class CategoriaController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
         Categoria obj = categoriaService.fromDto(objDto);
         obj = categoriaService.insert(obj);
@@ -67,6 +69,7 @@ public class CategoriaController {
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id){
         categoria.setId(id);
         categoriaService.update(categoria);
@@ -75,6 +78,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping({"{id}"})
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
 
       categoriaService.delete(id);
