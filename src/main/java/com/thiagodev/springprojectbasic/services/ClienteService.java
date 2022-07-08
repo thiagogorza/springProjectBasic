@@ -1,16 +1,18 @@
-package com.thiagodev.springprojectbasic.service;
+package com.thiagodev.springprojectbasic.services;
 
 import com.thiagodev.springprojectbasic.Models.Cidade;
-import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.Models.Dto.ClienteDTO;
 import com.thiagodev.springprojectbasic.Models.Dto.ClienteNewDTO;
 import com.thiagodev.springprojectbasic.Models.Endereco;
+import com.thiagodev.springprojectbasic.Models.enums.Perfil;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
+import com.thiagodev.springprojectbasic.services.exceptions.AuthorizationException;
 import com.thiagodev.springprojectbasic.repository.ClienteRepository;
 import com.thiagodev.springprojectbasic.repository.EnderecoRepository;
-import com.thiagodev.springprojectbasic.service.exception.DataIntegrityException;
-import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundException;
+import com.thiagodev.springprojectbasic.services.exceptions.DataIntegrityException;
+import com.thiagodev.springprojectbasic.services.exceptions.ObjectNotFoundException;
+import com.thiagodev.springprojectbasic.security.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -34,8 +36,12 @@ public class ClienteService {
     private EnderecoRepository enderecoRepository;
 
 
-    public Cliente findByid(Integer id) {
+    public Cliente findById(Integer id) {
 
+        UserSS user = UserService.authenticated();
+        if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+           throw new AuthorizationException("Acesso negado");
+        }
 
         Optional<Cliente> obj = clienteRepository.findById(id);
 
@@ -57,7 +63,7 @@ public class ClienteService {
     }
 
     public Cliente update(Cliente cliente) {
-       Cliente newCliente = findByid(cliente.getId()); //feito para atualizar apenas os argumentos enviados (exemplo: atulizar só nome e email)
+       Cliente newCliente = findById(cliente.getId()); //feito para atualizar apenas os argumentos enviados (exemplo: atulizar só nome e email)
        updateData(newCliente,cliente);
         return clienteRepository.save(newCliente);
     }
