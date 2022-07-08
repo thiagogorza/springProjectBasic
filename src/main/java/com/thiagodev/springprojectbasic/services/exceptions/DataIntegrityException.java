@@ -1,4 +1,4 @@
-package com.thiagodev.springprojectbasic.service.exception;
+package com.thiagodev.springprojectbasic.services.exceptions;
 
 public class DataIntegrityException extends RuntimeException{
     public DataIntegrityException(String message) {

@@ -3,8 +3,7 @@ package com.thiagodev.springprojectbasic.Controllers;
 import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.Models.Dto.ClienteDTO;
 import com.thiagodev.springprojectbasic.Models.Dto.ClienteNewDTO;
-import com.thiagodev.springprojectbasic.service.ClienteService;
-import org.springframework.beans.BeanUtils;
+import com.thiagodev.springprojectbasic.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,9 +32,9 @@ public class ClienteController {
     }
 
     @GetMapping(value = {"{id}"})
-    public ResponseEntity<?> findbyId(@PathVariable Integer id) {
-        Cliente obj = clienteService.findByid(id);
-        return ResponseEntity.ok(obj);
+    public ResponseEntity<Cliente> findById(@PathVariable Integer id) {
+        Cliente obj = clienteService.findById(id);
+        return ResponseEntity.ok().body(obj);
 
     }
     @GetMapping

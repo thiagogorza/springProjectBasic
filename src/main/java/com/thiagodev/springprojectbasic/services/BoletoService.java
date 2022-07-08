@@ -1,4 +1,4 @@
-package com.thiagodev.springprojectbasic.service;
+package com.thiagodev.springprojectbasic.services;
 
 import com.thiagodev.springprojectbasic.Models.Pagamento.PagamentoComBoleto;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.thiagodev.springprojectbasic.service.validation.utils;
+package com.thiagodev.springprojectbasic.services.validation.utils;
 
 public class BR {
     // CPF

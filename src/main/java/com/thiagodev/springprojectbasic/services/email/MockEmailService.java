@@ -1,4 +1,4 @@
-package com.thiagodev.springprojectbasic.service.email;
+package com.thiagodev.springprojectbasic.services.email;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.thiagodev.springprojectbasic.service;
+package com.thiagodev.springprojectbasic.services;
 
 import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.repository.ClienteRepository;

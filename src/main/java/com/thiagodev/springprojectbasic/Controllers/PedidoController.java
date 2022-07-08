@@ -1,8 +1,6 @@
 package com.thiagodev.springprojectbasic.Controllers;
-import com.thiagodev.springprojectbasic.Models.Categoria;
-import com.thiagodev.springprojectbasic.Models.Dto.CategoriaDTO;
 import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
-import com.thiagodev.springprojectbasic.service.PedidoService;
+import com.thiagodev.springprojectbasic.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

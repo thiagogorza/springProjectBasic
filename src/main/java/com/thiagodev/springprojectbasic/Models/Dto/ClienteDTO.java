@@ -1,7 +1,7 @@
 package com.thiagodev.springprojectbasic.Models.Dto;
 
 import com.thiagodev.springprojectbasic.Models.Cliente;
-import com.thiagodev.springprojectbasic.service.validation.ClienteUpdate;
+import com.thiagodev.springprojectbasic.services.validation.ClienteUpdate;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

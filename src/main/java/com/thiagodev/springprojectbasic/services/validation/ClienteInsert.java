@@ -1,4 +1,4 @@
-package com.thiagodev.springprojectbasic.service.validation;
+package com.thiagodev.springprojectbasic.services.validation;
 
 
 import java.lang.annotation.*;

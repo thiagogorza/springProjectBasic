@@ -1,15 +1,14 @@
-package com.thiagodev.springprojectbasic.service;
+package com.thiagodev.springprojectbasic.services;
 
 import com.thiagodev.springprojectbasic.Models.Categoria;
 import com.thiagodev.springprojectbasic.Models.Dto.CategoriaDTO;
 import com.thiagodev.springprojectbasic.repository.CategoriaRepository;
-import com.thiagodev.springprojectbasic.service.exception.DataIntegrityException;
-import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundException;
+import com.thiagodev.springprojectbasic.services.exceptions.DataIntegrityException;
+import com.thiagodev.springprojectbasic.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

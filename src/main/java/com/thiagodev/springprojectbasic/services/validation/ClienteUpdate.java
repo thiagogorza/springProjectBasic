@@ -1,12 +1,7 @@
-package com.thiagodev.springprojectbasic.service.validation;
-
-import com.thiagodev.springprojectbasic.service.validation.ClienteUpdateValidator;
-import org.hibernate.validator.constraints.CompositionType;
-import org.hibernate.validator.constraints.ConstraintComposition;
+package com.thiagodev.springprojectbasic.services.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.ReportAsSingleViolation;
 import java.lang.annotation.*;
 
 

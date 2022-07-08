@@ -1,7 +1,8 @@
 package com.thiagodev.springprojectbasic.Controllers.exception;
 
-import com.thiagodev.springprojectbasic.service.exception.DataIntegrityException;
-import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundException;
+import com.thiagodev.springprojectbasic.services.exceptions.AuthorizationException;
+import com.thiagodev.springprojectbasic.services.exceptions.DataIntegrityException;
+import com.thiagodev.springprojectbasic.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -39,4 +40,14 @@ public class ControllerExceptionHandler extends RuntimeException{
         }
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
     }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request){
+
+        StandardError err = new StandardError(System.currentTimeMillis(),HttpStatus.FORBIDDEN.value(), "Acesso negado",e.getMessage(),request.getRequestURI() );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+
+    }
+
+
 }

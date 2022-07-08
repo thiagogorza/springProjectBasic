@@ -1,11 +1,11 @@
-package com.thiagodev.springprojectbasic.service.validation;
+package com.thiagodev.springprojectbasic.services.validation;
 
 import com.thiagodev.springprojectbasic.Controllers.exception.FieldMessage;
 import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.Models.Dto.ClienteNewDTO;
 import com.thiagodev.springprojectbasic.Models.enums.TipoCliente;
 import com.thiagodev.springprojectbasic.repository.ClienteRepository;
-import com.thiagodev.springprojectbasic.service.validation.utils.BR;
+import com.thiagodev.springprojectbasic.services.validation.utils.BR;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

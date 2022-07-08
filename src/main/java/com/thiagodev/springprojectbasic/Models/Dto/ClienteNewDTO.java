@@ -1,11 +1,9 @@
 package com.thiagodev.springprojectbasic.Models.Dto;
 
-import com.thiagodev.springprojectbasic.service.validation.ClienteInsert;
+import com.thiagodev.springprojectbasic.services.validation.ClienteInsert;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

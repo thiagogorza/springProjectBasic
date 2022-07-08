@@ -1,6 +1,5 @@
-package com.thiagodev.springprojectbasic.service;
+package com.thiagodev.springprojectbasic.services;
 
-import com.thiagodev.springprojectbasic.Models.Pagamento.Pagamento;
 import com.thiagodev.springprojectbasic.Models.Pagamento.PagamentoComBoleto;
 import com.thiagodev.springprojectbasic.Models.Pedido.ItemPedido;
 import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
@@ -8,15 +7,14 @@ import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
 import com.thiagodev.springprojectbasic.repository.ItemPedidoRepository;
 import com.thiagodev.springprojectbasic.repository.PagamentoRepository;
 import com.thiagodev.springprojectbasic.repository.PedidoRepository;
-import com.thiagodev.springprojectbasic.service.email.EmailService;
-import com.thiagodev.springprojectbasic.service.exception.ObjectNotFoundException;
+import com.thiagodev.springprojectbasic.services.email.EmailService;
+import com.thiagodev.springprojectbasic.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -58,7 +56,7 @@ public class PedidoService {
     public Pedido insert(Pedido pedido) {
         pedido.setId(null);
         pedido.setInstante(new Date());
-        pedido.setCliente(clienteService.findByid(pedido.getCliente().getId()));
+        pedido.setCliente(clienteService.findById(pedido.getCliente().getId()));
         pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
         pedido.getPagamento().setPedido(pedido);
         if (pedido.getPagamento() instanceof PagamentoComBoleto) { // em uma aplicacao real isso será feito por um webservice

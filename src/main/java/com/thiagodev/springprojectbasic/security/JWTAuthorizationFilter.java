@@ -16,6 +16,7 @@ import java.io.IOException;
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private JWTUtil jwtUtil;
+
     private UserDetailsService userDetailsService;
 
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, UserDetailsService userDetailsService) {
@@ -23,30 +24,28 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain chain) throws IOException, ServletException{
-        String header = request.getHeader("Authorization");
+                                    FilterChain chain) throws IOException, ServletException {
 
-        // libera o usuário para acessar os endPoints que elee tem permissão
-        if(header != null && header.startsWith("Bearer ")){
-            UsernamePasswordAuthenticationToken auth = getAuthentication(header.substring(7)); // o "7" é para pegar apenas o token tirando os 7 caracteres da palavra bearer e o espaço depois
-            if(auth != null){
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            UsernamePasswordAuthenticationToken auth = getAuthentication(header.substring(7));
+            if (auth != null) {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
-        chain.doFilter(request,response);
+        chain.doFilter(request, response);
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(String token) {
-        if(jwtUtil.tokenValido(token)){
+        if (jwtUtil.tokenValido(token)) {
             String username = jwtUtil.getUsername(token);
             UserDetails user = userDetailsService.loadUserByUsername(username);
-            return new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
-
+            return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         }
-
         return null;
     }
 }

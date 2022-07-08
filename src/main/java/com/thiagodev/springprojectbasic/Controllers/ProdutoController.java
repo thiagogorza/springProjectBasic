@@ -1,16 +1,11 @@
 package com.thiagodev.springprojectbasic.Controllers;
 
 import com.thiagodev.springprojectbasic.Controllers.utils.URL;
-import com.thiagodev.springprojectbasic.Models.Categoria;
-import com.thiagodev.springprojectbasic.Models.Dto.CategoriaDTO;
 import com.thiagodev.springprojectbasic.Models.Dto.ProdutoDTO;
 import com.thiagodev.springprojectbasic.Models.Produto;
-import com.thiagodev.springprojectbasic.service.ProdutoService;
+import com.thiagodev.springprojectbasic.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Controller

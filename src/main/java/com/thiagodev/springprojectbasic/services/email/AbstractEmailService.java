@@ -1,4 +1,4 @@
-package com.thiagodev.springprojectbasic.service.email;
+package com.thiagodev.springprojectbasic.services.email;
 
 import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.thiagodev.springprojectbasic.service.exception;
+package com.thiagodev.springprojectbasic.services.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException{
     public ObjectNotFoundException(String message) {
