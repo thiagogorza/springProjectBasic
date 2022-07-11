@@ -1,5 +1,7 @@
 package com.thiagodev.springprojectbasic.services;
 
+import com.thiagodev.springprojectbasic.Models.Categoria;
+import com.thiagodev.springprojectbasic.Models.Cliente;
 import com.thiagodev.springprojectbasic.Models.Pagamento.PagamentoComBoleto;
 import com.thiagodev.springprojectbasic.Models.Pedido.ItemPedido;
 import com.thiagodev.springprojectbasic.Models.Pedido.Pedido;
@@ -7,9 +9,14 @@ import com.thiagodev.springprojectbasic.Models.enums.EstadoPagamento;
 import com.thiagodev.springprojectbasic.repository.ItemPedidoRepository;
 import com.thiagodev.springprojectbasic.repository.PagamentoRepository;
 import com.thiagodev.springprojectbasic.repository.PedidoRepository;
+import com.thiagodev.springprojectbasic.security.UserSS;
 import com.thiagodev.springprojectbasic.services.email.EmailService;
+import com.thiagodev.springprojectbasic.services.exceptions.AuthorizationException;
 import com.thiagodev.springprojectbasic.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,4 +82,16 @@ public class PedidoService {
         emailService.sendOrderConfirmationHtmlEmail(pedido); // envio de email (pode ser por requisicao ou pelo html, os metodos estao criados)
         return pedido;
     }
+
+    public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        UserSS userSS = UserService.authenticated();
+        if (userSS == null) {
+
+            throw new AuthorizationException("Acesso negado");
+        }
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Cliente cliente = clienteService.findById(userSS.getId());
+        return pedidoRepository.findByCliente(cliente,pageRequest);
+    }
+
 }
