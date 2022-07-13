@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTUtil jwtUtil;
 
     private static final String[] PUBLIC_MATCHERS = {
-      "/h2-console/**"
+            "/h2-console/**"
 
     };
     private static final String[] PUBLIC_MATCHERS_GET = { //permissao apenas para de acesso apenas para leitura
@@ -46,37 +46,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/categorias/**"
     };
     private static final String[] PUBLIC_MATCHERS_POST = { //permissao apenas para de acesso apenas para leitura
-        "/produtos/**",
-        "/categorias/**",
-        "/clientes/**"
+            "/clientes/**",
+            "/auth/forgot/**"
     };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        if(Arrays.asList(env.getActiveProfiles()).contains("test")){
+        if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             http.headers().frameOptions().disable();
         }
         http.cors().and().csrf().disable(); // desabilita a protecao contra ataques csrf (como usuario nao tera sessao n é necessario)
         http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll()
-                .antMatchers(HttpMethod.POST,PUBLIC_MATCHERS_POST).permitAll()
-                .antMatchers(HttpMethod.GET,PUBLIC_MATCHERS_GET).permitAll()
+                .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+                .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .anyRequest().authenticated();
-        http.addFilter(new JWTAuthenticationFilter(authenticationManager(),jwtUtil));
-        http.addFilter(new JWTAuthorizationFilter(authenticationManager(),jwtUtil,userDetailsService));
+        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //nao cria sessao de usuario
     }
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
+
     //o bean disponibiliza o metodo para qualquer classe do sistema
-    @Bean //configuracao de cors
-    CorsConfigurationSource corsConfigurationSource(){
+    @Bean
+    //configuracao de cors
+    CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",new CorsConfiguration().applyPermitDefaultValues());
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
+
     @Bean //crypt senhas
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

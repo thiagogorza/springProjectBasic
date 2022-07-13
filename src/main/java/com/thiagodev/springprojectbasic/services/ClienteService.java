@@ -110,5 +110,11 @@ public class ClienteService {
 
     }
 
+    public Cliente findByEmail(String email){
+        return clienteRepository.findByEmail(email);
+    }
 
+    public Cliente save(Cliente cliente) {
+        return clienteRepository.save(cliente);
+    }
 }
