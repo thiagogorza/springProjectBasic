@@ -20,7 +20,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,20 +37,24 @@ public class ClienteService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
+    @Autowired
+    private S3Service s3Service;
+
 
     public Cliente findById(Integer id) {
 
         UserSS user = UserService.authenticated();
-        if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
-           throw new AuthorizationException("Acesso negado");
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Acesso negado");
         }
 
         Optional<Cliente> obj = clienteRepository.findById(id);
 
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id " +
-                id + ",tipo:"  + Cliente.class.getName() ));
+                id + ",tipo:" + Cliente.class.getName()));
 
     }
+
     public List<Cliente> findAll() {
         return clienteRepository.findAll();
     }
@@ -57,14 +63,14 @@ public class ClienteService {
     public Cliente insert(Cliente cliente) {
         cliente.setId(null);
         cliente = clienteRepository.save(cliente);
-       enderecoRepository.saveAll(cliente.getEnderecos()); // para salvar o endereço no metodo post
+        enderecoRepository.saveAll(cliente.getEnderecos()); // para salvar o endereço no metodo post
         return cliente;
 
     }
 
     public Cliente update(Cliente cliente) {
-       Cliente newCliente = findById(cliente.getId()); //feito para atualizar apenas os argumentos enviados (exemplo: atulizar só nome e email)
-       updateData(newCliente,cliente);
+        Cliente newCliente = findById(cliente.getId()); //feito para atualizar apenas os argumentos enviados (exemplo: atulizar só nome e email)
+        updateData(newCliente, cliente);
         return clienteRepository.save(newCliente);
     }
 
@@ -82,39 +88,46 @@ public class ClienteService {
         return clienteRepository.findAll(pageable);
     }
 
-    public Cliente fromDto(ClienteDTO objDto){
+    public Cliente fromDto(ClienteDTO objDto) {
 
-        return new Cliente (objDto.getId(),objDto.getName(),objDto.getEmail(),null,null,null);
+        return new Cliente(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null, null);
 
     }
+
     public Cliente fromDto(ClienteNewDTO objDto) {
-        Cliente cliente = new Cliente (null,objDto.getName(),objDto.getEmail(),objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipoCliente()), pe.encode(objDto.getSenha()));
-        Cidade cidade = new Cidade(objDto.getCidadeId(),null,null);
-        Endereco endereco = new Endereco(null,objDto.getLogradouro(),objDto.getNumero(),objDto.getComplemento(),objDto.getBairro()
-                ,objDto.getCep(),cliente,cidade);
+        Cliente cliente = new Cliente(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipoCliente()), pe.encode(objDto.getSenha()));
+        Cidade cidade = new Cidade(objDto.getCidadeId(), null, null);
+        Endereco endereco = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro()
+                , objDto.getCep(), cliente, cidade);
         cliente.getEnderecos().add(endereco); // para o cliente conhecer o endereço.
         cliente.getTelefones().add(objDto.getTelefone1());
-        if(objDto.getTelefone2() !=null){
+        if (objDto.getTelefone2() != null) {
             cliente.getTelefones().add((objDto.getTelefone2()));
         }
-        if(objDto.getTelefone3() !=null){
+        if (objDto.getTelefone3() != null) {
             cliente.getTelefones().add((objDto.getTelefone3()));
         }
-    return cliente;
+        return cliente;
 
     }
-    private void updateData(Cliente newCliente, Cliente obj){
+
+    private void updateData(Cliente newCliente, Cliente obj) {
 
         newCliente.setName(obj.getName());
         newCliente.setEmail(obj.getEmail());
 
     }
 
-    public Cliente findByEmail(String email){
+    public Cliente findByEmail(String email) {
         return clienteRepository.findByEmail(email);
     }
 
     public Cliente save(Cliente cliente) {
         return clienteRepository.save(cliente);
+    }
+
+    public URI uploadProfilePicture(MultipartFile multipartFile) {
+        return s3Service.uploadFile(multipartFile);
+
     }
 }
