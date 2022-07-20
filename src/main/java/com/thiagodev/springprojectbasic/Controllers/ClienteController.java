@@ -55,7 +55,7 @@ public class ClienteController {
 //        }
 //
 //        return ResponseEntity.ok(clienteDTOS);
-                List<ClienteDTO> clienteDtos = clienteList.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
+        List<ClienteDTO> clienteDtos = clienteList.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
 
         return ResponseEntity.ok(clienteDTOS);
     }
