@@ -14,6 +14,7 @@ import com.thiagodev.springprojectbasic.services.exceptions.DataIntegrityExcepti
 import com.thiagodev.springprojectbasic.services.exceptions.ObjectNotFoundException;
 import com.thiagodev.springprojectbasic.security.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +23,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
@@ -40,6 +44,14 @@ public class ClienteService {
     @Autowired
     private S3Service s3Service;
 
+    @Autowired
+    private ImageService imageService;
+
+    @Value("${img.prefix.client.profile}")
+    private String prefix;
+
+    @Value("${img.profile.size}")
+    private Integer size;
 
     public Cliente findById(Integer id) {
 
@@ -126,8 +138,22 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public URI uploadProfilePicture(MultipartFile multipartFile) {
-        return s3Service.uploadFile(multipartFile);
+    public URI uploadProfilePicture(MultipartFile multipartFile) throws URISyntaxException {
+
+       UserSS user = UserService.authenticated();
+       if(user == null){
+           throw new AuthorizationException("Acesso Negado");
+       }
+
+        BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+        jpgImage = imageService.cropSquare(jpgImage);
+        jpgImage = imageService.resize(jpgImage, size);
+
+        String fileName = prefix + user.getId() + ".jpg";
+
+        return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+
+
 
     }
 }

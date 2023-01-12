@@ -24,13 +24,14 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
 
     @Column(unique = true)
     private String email;
     private String cpfOuCnpj;
     private Integer tipoCliente; // colocou tipo cliente como intenger dentro da classe,para que apenas o cod da classe TipoCliente
-
+    private String imageUrl;
     @JsonIgnore // nao aparecer nas requisoes get a senha, quando chamar o objeto cliente
     private String senha;
     @JsonIgnore
@@ -38,11 +39,11 @@ public class Cliente implements Serializable {
     private List<Pedido> pedidos = new ArrayList<>();                              // seja armazenado
 
     @ElementCollection // cria uma tabela nova "telefone" tendo como chave primaria o id do cliente
-    @CollectionTable(name="TELEFONE")
+    @CollectionTable(name="telefone")
     private Set<String> telefones = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="PERFIS")
+    @CollectionTable(name="perfis")
     private Set<Integer> perfis = new HashSet<>();
 
     

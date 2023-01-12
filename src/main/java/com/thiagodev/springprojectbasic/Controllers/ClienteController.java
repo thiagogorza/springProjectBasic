@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -99,8 +100,8 @@ public class ClienteController {
         return ResponseEntity.ok().body(clientePageDtos);
     }
     @PostMapping(value = "/picture")
-    public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile multipartFile) {
-        URI uri = clienteService.uploadProfilePicture(multipartFile);
+    public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) throws URISyntaxException {
+        URI uri = clienteService.uploadProfilePicture(file);
         return ResponseEntity.created(uri).build();
     }
 
