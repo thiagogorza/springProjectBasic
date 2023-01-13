@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
     private static final String[] PUBLIC_MATCHERS_GET = { //permissao apenas para de acesso apenas para leitura
             "/produtos/**",
-            "/categorias/**"
+            "/categorias/**",
+            "/estados/**"
     };
     private static final String[] PUBLIC_MATCHERS_POST = { //permissao apenas para de acesso apenas para leitura
             "/clientes",
